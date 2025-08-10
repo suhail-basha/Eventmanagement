@@ -8,6 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+// ADMIN EMAIL - admin@gmail.com
+
+// ADMIN PASSWORD - admin123
+
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
