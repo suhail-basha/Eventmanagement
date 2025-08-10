@@ -10,6 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.EventManageProject.Entity.Event;
 
+// ADMIN EMAIL - admin@gmail.com
+
+// ADMIN PASSWORD - admin123
+
+
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
