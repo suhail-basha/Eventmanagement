@@ -23,6 +23,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+// ADMIN EMAIL - admin@gmail.com
+
+// ADMIN PASSWORD - admin123
+
+
 @Controller
 @RequestMapping("/user")
 @PreAuthorize("hasRole('USER')")
