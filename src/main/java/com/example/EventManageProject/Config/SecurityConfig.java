@@ -12,6 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+
+// ADMIN EMAIL - admin@gmail.com
+
+// ADMIN PASSWORD - admin123
+
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
