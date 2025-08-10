@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // ADMIN PASSWORD - admin123
 
-
 @SpringBootApplication
 public class EventManageProjectApplication {
 
