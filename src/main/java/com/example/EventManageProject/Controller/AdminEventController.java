@@ -20,6 +20,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+// ADMIN EMAIL - admin@gmail.com
+
+// ADMIN PASSWORD - admin123
+
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin")
