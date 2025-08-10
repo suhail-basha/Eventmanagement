@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | EventHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        main { flex: 1; }
+
+        /* Card Animation */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.7s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section Headings */
+        h2, h4 {
+            animation: fadeInUp 1s ease;
+        }
+
+        /* Button hover glow */
+        .btn {
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+             .navbar {
+      background-color: #0d1b2a;
+    }
+
+    .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.navbar-brand{
+ color: #ffffff !important;
+}
+
+.nav-link:hover {
+  color: #adb5bd !important;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: #ffc107 !important;
+  border-bottom: none !important;
+}
+
+
+        footer {
+            background-color: #212529;
+        }
+
+        table {
+            animation: fadeInUp 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">🎯 EventHub Admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAdmin">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarAdmin">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" th:href="@{/admin/dashboard}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link " th:href="@{/admin/events}">Manage Events</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/speakers}">Speakers</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/registrations}">Registrations</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/users}">Users</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/attendances}">Attendance</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-5">
+    <h2 class="mb-4 text-center fw-bold">Admin Dashboard</h2>
+
+    <div class="row g-4 mb-5 text-center">
+        <div class="col-md-3">
+            <div class="card border-primary shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">Total Events</h5>
+                    <p class="display-6 fw-semibold" th:text="${totalEvents}">0</p>
+                    <a th:href="@{/admin/events}" class="btn btn-outline-primary btn-sm">Manage Events</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-success shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-success">Total Users</h5>
+                    <p class="display-6 fw-semibold" th:text="${totalUsers}">0</p>
+                    <a th:href="@{/admin/users}" class="btn btn-outline-success btn-sm">View Users</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-warning shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Upcoming Events</h5>
+                    <p class="display-6 fw-semibold" th:text="${upcomingEvents}">0</p>
+                    <a th:href="@{/admin/events}" class="btn btn-outline-warning btn-sm">Upcoming List</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-info shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info">Total Attendances</h5>
+                    <p class="display-6 fw-semibold" th:text="${totalAttendances}">0</p>
+                    <a th:href="@{/admin/attendances}" class="btn btn-outline-info btn-sm">Attendance Records</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Rate -->
+    <div class="row mb-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card border-secondary shadow-sm text-center">
+                <div class="card-body">
+                    <h5 class="card-title text-secondary">Attendance Rate</h5>
+                    <p class="display-6 fw-bold"><span th:text="${attendanceRate}">0</span>%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Registrations -->
+    <div class="mb-5">
+        <h4 class="mb-3 fw-semibold text-center">Recent Registrations</h4>
+
+        <div th:if="${#lists.isEmpty(recentRegistrations)}" class="text-center text-muted fw-bold py-4">
+            No recent registrations
+        </div>
+
+        <div class="table-responsive shadow-sm rounded" th:if="${!#lists.isEmpty(recentRegistrations)}">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>User</th>
+                    <th>Event</th>
+                    <th>Registered On</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reg : ${recentRegistrations}">
+                    <td th:text="${reg.user.name}">John Doe</td>
+                    <td th:text="${reg.event.title}">Event Title</td>
+                    <td th:text="${#temporals.format(reg.registeredAt, 'dd MMM yyyy HH:mm')}">01 Jan 2025</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Recent Attendances -->
+    <div>
+        <h4 class="mb-3 fw-semibold text-center">Recent Attendances</h4>
+
+        <div th:if="${#lists.isEmpty(recentAttendances)}" class="text-center text-muted fw-bold py-4">
+            No recent attendances
+        </div>
+
+        <div class="table-responsive shadow-sm rounded" th:if="${!#lists.isEmpty(recentAttendances)}">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>User</th>
+                    <th>Event</th>
+                    <th>Attended On</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="att : ${recentAttendances}">
+                    <td th:text="${att.user.name}">Jane Doe</td>
+                    <td th:text="${att.event.title}">Sample Event</td>
+                    <td th:text="${#temporals.format(att.attendedAt, 'dd MMM yyyy HH:mm')}">01 Jan 2025</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</main>
+
+<footer class="text-white text-center py-3 mt-auto">
+    &copy; 2025 EventHub Admin Panel. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
